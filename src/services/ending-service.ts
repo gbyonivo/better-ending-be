@@ -59,13 +59,20 @@ const getEndingFromDeepseekAI = async (
   }
 }
 
-const getEndingsFromAI = async (
-  imdbId: string,
-): Promise<{ deepseek: string | null; openai: string | null }> => {
+interface EndingsFromAI {
+  deepseek: string | null
+  openai: string | null
+}
+
+const getEndingsFromAI = async (imdbId: string): Promise<EndingsFromAI> => {
   try {
     const movie = await getMovieByImdbId(imdbId)
     if (!movie) {
       return { deepseek: null, openai: null }
+    }
+    if (endingCache.get(imdbId)) {
+      console.log('Cache hit')
+      return endingCache.get(imdbId) as EndingsFromAI
     }
 
     const prompt = `The plot of the movie ${movie.Title} is ${movie.Plot}. Please give me a different short ending for the movie.`
@@ -74,6 +81,9 @@ const getEndingsFromAI = async (
       getEndingFromOpenAI(prompt),
       getEndingFromDeepseekAI(prompt),
     ])
+
+    endingCache.set(imdbId, { deepseek, openai })
+
     return { deepseek, openai }
   } catch (error) {
     console.error(error)
