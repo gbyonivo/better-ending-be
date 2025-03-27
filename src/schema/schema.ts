@@ -4,6 +4,10 @@ export const typeDefs = `
     movieImage: String
     content: String
     aiName: String
+    ending: String
+    id: String
+    createdAt: String
+    updatedAt: String  
   }
 
   type Rating {
@@ -40,7 +44,7 @@ export const typeDefs = `
   }
     
   type Query {
-    endings: [Ending]
+    endings(imdbId: String): [Ending]
     movieByName(name: String): Movie
     movieById(imdbId: String): Movie
   }

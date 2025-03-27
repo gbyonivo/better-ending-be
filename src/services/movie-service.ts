@@ -1,10 +1,9 @@
 import axios from 'axios'
 import { Movie } from '../types/movie'
 import NodeCache from 'node-cache'
+import { OMDB_API_KEY } from '../utils/config'
 
 const movieCache = new NodeCache()
-
-const OMDB_API_KEY = process.env.OMDB_API_KEY || '41a6dc1f'
 
 export const getMovieByName = async (
   movieName: string,
