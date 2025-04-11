@@ -1,0 +1,39 @@
+import { redis } from '../database'
+import { Movie } from '../types/movie'
+
+export const ENDING_CACHE_KEY = 'ending'
+export const MOVIE_CACHE_KEY = 'movie'
+
+export const cacheEnding = async ({
+  imdbId,
+  ending,
+}: {
+  imdbId: string
+  ending: { deepseek: string | null; openai: string | null }
+}) => {
+  await redis.set(`${ENDING_CACHE_KEY}-${imdbId}`, JSON.stringify(ending))
+}
+
+export const getEndingFromCache = async (imdbId: string) => {
+  const ending = await redis.get(`${ENDING_CACHE_KEY}-${imdbId}`)
+  if (!ending) {
+    return null
+  }
+  return JSON.parse(ending)
+}
+
+export const deleteEndingFromCache = async (imdbId: string) => {
+  await redis.del(`${ENDING_CACHE_KEY}-${imdbId}`)
+}
+
+export const cacheMovie = async (imdbId: string, movie: Movie) => {
+  await redis.set(`${MOVIE_CACHE_KEY}-${imdbId}`, JSON.stringify(movie))
+}
+
+export const getMovieFromCache = async (imdbId: string) => {
+  const movie = await redis.get(`${MOVIE_CACHE_KEY}-${imdbId}`)
+  if (!movie) {
+    return null
+  }
+  return JSON.parse(movie)
+}

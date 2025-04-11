@@ -1,4 +1,4 @@
-import { sequelize } from './connection'
+import { sequelize, redis } from './connection'
 import { ReviewModel } from './db-models/review'
 import { EndingModel } from './db-models/ending'
 import { UserModel } from './db-models/user'
@@ -20,4 +20,4 @@ ReviewModel.belongsTo(EndingModel, {
   as: 'ending',
 })
 
-export { sql, ReviewModel, EndingModel, UserModel }
+export { sql, ReviewModel, EndingModel, UserModel, redis }

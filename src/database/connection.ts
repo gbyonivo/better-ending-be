@@ -1,25 +1,25 @@
-import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const DB_HOST = process.env.DB_HOST;
-const DB_NAME = process.env.DB_NAME;
-const DB_USER = process.env.DB_USER;
-const DB_PASSWORD = process.env.DB_PASSWORD;
-const DB_PORT = process.env.DB_PORT;
-const DB_SCHEMA = process.env.DB_SCHEMA;
-const DB_SSL = process.env.DB_SSL;
+import { Sequelize } from 'sequelize'
+import { createClient } from 'redis'
+import {
+  REDIS_URL,
+  DB_HOST,
+  DB_NAME,
+  DB_PASSWORD,
+  DB_PORT,
+  DB_USER,
+  DB_SCHEMA,
+  DB_SSL,
+} from '../utils/config'
 
 const connectionUrl =
-  DB_SSL === "true"
+  DB_SSL === 'true'
     ? `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?ssl=${DB_SSL}`
-    : `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
+    : `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
 
 const sequelize = new Sequelize(connectionUrl, {
   logging: false,
   schema: DB_SCHEMA,
-});
+})
 
 sequelize
   .authenticate()
@@ -27,7 +27,26 @@ sequelize
     // Connection established
   })
   .catch((e) => {
-    console.error(e);
-  });
+    console.error(e)
+  })
 
-export { sequelize };
+const redis = createClient({
+  url: REDIS_URL,
+})
+
+redis.connect()
+
+redis.on('error', (err: any) => {
+  console.error('Redis error', err)
+})
+redis.on('connect', () => {
+  console.log('Redis connected')
+})
+redis.on('ready', () => {
+  console.log('Redis ready')
+})
+redis.on('end', () => {
+  console.log('Redis end')
+})
+
+export { sequelize, redis }
