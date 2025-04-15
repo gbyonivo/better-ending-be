@@ -1,6 +1,4 @@
-import { ModelOptions } from "sequelize";
-
-export const COMMON_TABLE_SETTINGS: ModelOptions = {
+export const COMMON_TABLE_SETTINGS = {
   underscored: true,
-  schema: "writers",
-};
+  schema: 'writers',
+}

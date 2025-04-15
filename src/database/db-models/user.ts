@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../connection.js'
+import { sequelize } from '../connection'
 import { COMMON_TABLE_SETTINGS } from '../../utils/database'
 
 export const UserModel = sequelize.define(

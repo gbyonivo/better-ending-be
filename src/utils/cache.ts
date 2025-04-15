@@ -1,4 +1,4 @@
-import { redis } from '../database'
+import { redis } from '../database/db'
 import { Movie } from '../types/movie'
 
 export const ENDING_CACHE_KEY = 'ending'
