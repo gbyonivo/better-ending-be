@@ -7,12 +7,7 @@ import {
 } from '../utils/ai'
 import { Ending } from '../types/ending'
 import { AI_NAMES } from '../types/ai'
-import { redis } from '../database'
-import {
-  cacheEnding,
-  ENDING_CACHE_KEY,
-  getEndingFromCache,
-} from '../utils/cache'
+import { cacheEnding, getEndingFromCache } from '../utils/cache'
 
 const getEndingFromOpenAI = async (prompt: string): Promise<string | null> => {
   try {

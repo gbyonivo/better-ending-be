@@ -1,7 +1,4 @@
-import NodeCache from 'node-cache'
-import { EndingModel } from '../database'
-
-const ratingCache = new NodeCache()
+import { getRatingFromCache } from '../utils/cache'
 
 export const rateEnding = async ({
   endingId,
@@ -17,7 +14,7 @@ export const rateEnding = async ({
 export const getRatingsByUser = async (userId: string) => {
   try {
     const cacheKey = userId
-    const cachedRatings = ratingCache.get(cacheKey)
+    const cachedRatings = await getRatingFromCache(cacheKey)
     if (cachedRatings) {
       return cachedRatings
     }

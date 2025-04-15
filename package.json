@@ -30,5 +30,8 @@
     "tsx": "^4.19.3",
     "typescript": "^5.8.2",
     "unique-username-generator": "^1.4.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

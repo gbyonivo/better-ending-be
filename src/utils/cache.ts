@@ -3,7 +3,7 @@ import { Movie } from '../types/movie'
 
 export const ENDING_CACHE_KEY = 'ending'
 export const MOVIE_CACHE_KEY = 'movie'
-
+export const RATING_CACHE_KEY = 'rating'
 export const cacheEnding = async ({
   imdbId,
   ending,
@@ -36,4 +36,17 @@ export const getMovieFromCache = async (imdbId: string) => {
     return null
   }
   return JSON.parse(movie)
+}
+
+export const cacheRating = async (userId: string, rating: number) => {
+  await redis.set(`${RATING_CACHE_KEY}-${userId}`, JSON.stringify(rating))
+}
+
+export const getRatingFromCache = async (userId: string) => {
+  const cacheKey = `${RATING_CACHE_KEY}-${userId}`
+  const rating = await redis.get(cacheKey)
+  if (!rating) {
+    return null
+  }
+  return JSON.parse(rating)
 }
