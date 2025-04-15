@@ -18,5 +18,6 @@ export const getRatingsByUser = async (userId: string) => {
     if (cachedRatings) {
       return cachedRatings
     }
+    return []
   } catch (error) {}
 }
