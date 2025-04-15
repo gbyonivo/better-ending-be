@@ -9,7 +9,9 @@ import { Ending } from '../types/ending'
 import { AI_NAMES } from '../types/ai'
 import { cacheEnding, getEndingFromCache } from '../utils/cache'
 
-const getEndingFromOpenAI = async (prompt: string): Promise<string | null> => {
+export const getEndingFromOpenAI = async (
+  prompt: string,
+): Promise<string | null> => {
   try {
     const response = await OPEN_AI.chat.completions.create({
       model: OPEN_AI_MODEL,

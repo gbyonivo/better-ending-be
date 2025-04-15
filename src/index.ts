@@ -7,6 +7,9 @@ import cors from 'cors'
 import { typeDefs } from './schema/schema'
 import { resolvers } from './resolvers/resolvers'
 import { expressMiddleware } from '@apollo/server/express4'
+import { errorHandler } from './errors/error-handler'
+import { logError } from './errors/logger'
+import { redis, sequelize } from './database/connection'
 
 const app = express()
 const httpServer = http.createServer(app)
@@ -16,10 +19,34 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 })
 
+process.on('uncaughtException', (error) => {
+  console.log(error)
+})
+
+process.on('unhandledRejection', (error) => {
+  console.log(error)
+})
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received. Cleaning up...')
+  sequelize.close()
+  redis.save()
+  process.exit(0)
+})
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received. Cleaning up...')
+  sequelize.close()
+  redis.save()
+  process.exit(0)
+})
+
 server.start().then(() => {
   app.get('/test', (req: any, res: any) => {
     res.send('Here we go')
   })
+  app.use(logError)
+  app.use(errorHandler)
   app.use(
     '/',
     cors<cors.CorsRequest>(),
@@ -34,6 +61,6 @@ server.start().then(() => {
   )
 })
 
-httpServer.listen({ port: 5001 }, () => {
-  console.log(`🚀 Server ready at http://localhost:5001/`)
+httpServer.listen({ port: 4000 }, () => {
+  console.log(`🚀 Server ready at http://localhost:4000/`)
 })
