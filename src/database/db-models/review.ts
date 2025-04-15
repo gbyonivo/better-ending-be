@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../connection.js'
-import { COMMON_TABLE_SETTINGS } from '../../utils/database.js'
+import { sequelize } from '../connection'
+import { COMMON_TABLE_SETTINGS } from '../../utils/database'
 
 export const ReviewModel = sequelize.define(
   'Review',
