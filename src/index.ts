@@ -34,6 +34,6 @@ server.start().then(() => {
   )
 })
 
-httpServer.listen({ port: 4000 }, () => {
-  console.log(`🚀 Server ready at http://localhost:4000/`)
+httpServer.listen({ port: 5001 }, () => {
+  console.log(`🚀 Server ready at http://localhost:5001/`)
 })

@@ -7,9 +7,7 @@ import {
 } from '../utils/ai'
 import { Ending } from '../types/ending'
 import { AI_NAMES } from '../types/ai'
-import NodeCache from 'node-cache'
-
-const endingCache = new NodeCache()
+import { cacheEnding, getEndingFromCache } from '../utils/cache'
 
 const getEndingFromOpenAI = async (prompt: string): Promise<string | null> => {
   try {
@@ -70,9 +68,9 @@ const getEndingsFromAI = async (imdbId: string): Promise<EndingsFromAI> => {
     if (!movie) {
       return { deepseek: null, openai: null }
     }
-    if (endingCache.get(imdbId)) {
-      console.log('Cache hit')
-      return endingCache.get(imdbId) as EndingsFromAI
+    const cachedEnding = await getEndingFromCache(imdbId)
+    if (cachedEnding) {
+      return cachedEnding as EndingsFromAI
     }
 
     const prompt = `The plot of the movie ${movie.Title} is ${movie.Plot}. Please give me a different short ending for the movie.`
@@ -82,7 +80,7 @@ const getEndingsFromAI = async (imdbId: string): Promise<EndingsFromAI> => {
       getEndingFromDeepseekAI(prompt),
     ])
 
-    endingCache.set(imdbId, { deepseek, openai })
+    cacheEnding({ imdbId, ending: { deepseek, openai } })
 
     return { deepseek, openai }
   } catch (error) {
