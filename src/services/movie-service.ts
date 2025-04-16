@@ -3,7 +3,8 @@ import { Movie } from '../types/movie'
 import { OMDB_API_KEY } from '../utils/config'
 import { cacheMovie, getMovieFromCache } from '../utils/cache'
 import { NotFoundError } from '../errors/not-found-error'
-import { BaseError } from '../errors/base-error'
+import { archiveMovieQueue } from '../workers/archive-movie-worker'
+import { Job } from '../types/job'
 
 export const getMovieByName = async (
   movieName: string,
@@ -19,8 +20,8 @@ export const getMovieByName = async (
   if (!movie.imdbID) {
     throw new NotFoundError({ message: `${movieName} not found in OMDB API` })
   }
-  console.log(movie)
   cacheMovie(movieName, movie)
+  archiveMovieQueue.add(Job.ArchiveMovie, { movie })
   return movie
 }
 

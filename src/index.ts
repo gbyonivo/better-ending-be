@@ -6,9 +6,10 @@ import cors from 'cors'
 import { typeDefs } from './schema/schema'
 import { resolvers } from './resolvers/resolvers'
 import { expressMiddleware } from '@apollo/server/express4'
-import { errorHandler } from './errors/error-handler'
-import { redis, sequelize } from './database/connection'
+import { redis } from './database/connection'
 import { BadInputError } from './errors/bad-input-error'
+import { shutdown } from './utils/shutdown'
+import { errorHandler } from './errors/error-handler'
 
 const app = express()
 const httpServer = http.createServer(app)
@@ -32,15 +33,13 @@ process.on('unhandledRejection', (error) => {
 
 process.on('SIGINT', () => {
   console.log('SIGINT received. Cleaning up...')
-  sequelize.close()
-  redis.save()
+  shutdown()
   process.exit(0)
 })
 
 process.on('SIGTERM', () => {
   console.log('SIGTERM received. Cleaning up...')
-  sequelize.close()
-  redis.save()
+  shutdown()
   process.exit(0)
 })
 
@@ -48,10 +47,14 @@ server.start().then(() => {
   app.get('/test', (req: any, res: any) => {
     res.send('Here we go')
   })
-  // app.get('/test-error', () => {
-  //   throw new BadInputError({ message: 'Test error' })
-  // })
-  // app.use(errorHandler)
+  app.get('/test-error', () => {
+    throw new BadInputError({ message: 'Test error' })
+  })
+  app.get('/clear-cache', async (req: any, res: any) => {
+    await redis.flushAll()
+    res.send('Cache cleared')
+  })
+  app.use(errorHandler)
   app.use(
     '/',
     cors<cors.CorsRequest>(),
