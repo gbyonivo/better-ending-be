@@ -9,6 +9,6 @@ export function errorHandler(
   next: NextFunction,
 ) {
   logError(err, req, res)
-  res.status(err.statusCode || 500)
+  res.status(err.code || 500)
   res.send({ error: err })
 }

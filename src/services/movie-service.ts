@@ -9,9 +9,9 @@ export const getMovieByName = async (
   movieName: string,
 ): Promise<Movie | null> => {
   const cachedMovie = await getMovieFromCache(movieName)
-  // if (cachedMovie) {
-  //   return cachedMovie as Movie
-  // }
+  if (cachedMovie) {
+    return cachedMovie as Movie
+  }
   const response = await axios.get(
     `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=${movieName}`,
   )

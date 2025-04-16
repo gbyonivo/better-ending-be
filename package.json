@@ -19,6 +19,7 @@
     "@types/supertest": "^6.0.3",
     "axios": "^1.8.4",
     "body-parser": "^2.2.0",
+    "bullmq": "^5.49.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "graphql": "^16.10.0",

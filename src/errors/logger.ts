@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { BaseErrorType } from '../types/error'
 
 export function logError(err: BaseErrorType, req: Request, res: Response) {

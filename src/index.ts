@@ -1,5 +1,4 @@
 import { ApolloServer } from '@apollo/server'
-import bodyParser from 'body-parser'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import express from 'express'
 import http from 'http'
@@ -8,9 +7,7 @@ import { typeDefs } from './schema/schema'
 import { resolvers } from './resolvers/resolvers'
 import { expressMiddleware } from '@apollo/server/express4'
 import { errorHandler } from './errors/error-handler'
-import { logError } from './errors/logger'
 import { redis, sequelize } from './database/connection'
-import { NotFoundError } from './errors/not-found-error'
 import { BadInputError } from './errors/bad-input-error'
 
 const app = express()
@@ -51,10 +48,10 @@ server.start().then(() => {
   app.get('/test', (req: any, res: any) => {
     res.send('Here we go')
   })
-  app.get('/test-error', () => {
-    throw new BadInputError({ message: 'Test error' })
-  })
-  app.use(errorHandler)
+  // app.get('/test-error', () => {
+  //   throw new BadInputError({ message: 'Test error' })
+  // })
+  // app.use(errorHandler)
   app.use(
     '/',
     cors<cors.CorsRequest>(),

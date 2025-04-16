@@ -1,12 +1,12 @@
-import { BaseErrorType } from '../types/error'
+import { BaseErrorType, ErrorCode, ErrorName } from '../types/error'
 import { BaseError } from './base-error'
 
 export class BadInputError extends BaseError {
   constructor({
     message,
-    statusCode = 400,
-    name = 'BadInputError',
+    code = ErrorCode.BAD_REQUEST,
+    name = ErrorName.BAD_REQUEST,
   }: BaseErrorType) {
-    super({ message, statusCode, name })
+    super({ message, code, name })
   }
 }

@@ -1,11 +1,16 @@
-import { BaseErrorType } from '../types/error'
+import { GraphQLError } from 'graphql'
+import { BaseErrorType, ErrorCode, ErrorName } from '../types/error'
 
-export class BaseError extends Error {
-  public statusCode?: number
+export class BaseError extends GraphQLError {
+  public code?: number
 
-  constructor({ message, statusCode = 500, name = '' }: BaseErrorType) {
+  constructor({
+    message,
+    code = ErrorCode.INTERNAL_SERVER_ERROR,
+    name = ErrorName.INTERNAL_SERVER_ERROR,
+  }: BaseErrorType) {
     super(message)
     this.name = name
-    this.statusCode = statusCode
+    this.extensions.code = code
   }
 }
