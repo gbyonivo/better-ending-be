@@ -10,6 +10,8 @@ import { expressMiddleware } from '@apollo/server/express4'
 import { errorHandler } from './errors/error-handler'
 import { logError } from './errors/logger'
 import { redis, sequelize } from './database/connection'
+import { NotFoundError } from './errors/not-found-error'
+import { BadInputError } from './errors/bad-input-error'
 
 const app = express()
 const httpServer = http.createServer(app)
@@ -17,6 +19,10 @@ const server = new ApolloServer({
   typeDefs: typeDefs,
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  formatError: (error) => {
+    console.log('error', error)
+    return error
+  },
 })
 
 process.on('uncaughtException', (error) => {
@@ -45,7 +51,9 @@ server.start().then(() => {
   app.get('/test', (req: any, res: any) => {
     res.send('Here we go')
   })
-  app.use(logError)
+  app.get('/test-error', () => {
+    throw new BadInputError({ message: 'Test error' })
+  })
   app.use(errorHandler)
   app.use(
     '/',

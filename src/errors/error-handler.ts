@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { BaseErrorType } from '../types/error'
+import { logError } from './logger'
 
 export function errorHandler(
   err: BaseErrorType,
@@ -7,6 +8,7 @@ export function errorHandler(
   res: Response,
   next: NextFunction,
 ) {
+  logError(err, req, res)
   res.status(err.statusCode || 500)
-  res.render('error ---', { error: err })
+  res.send({ error: err })
 }

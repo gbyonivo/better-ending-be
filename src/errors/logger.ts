@@ -1,11 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
+import { BaseErrorType } from '../types/error'
 
-export function logError(
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export function logError(err: BaseErrorType, req: Request, res: Response) {
   console.log('ersssss', Error)
-  next(err)
 }
