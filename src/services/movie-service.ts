@@ -41,7 +41,6 @@ export const getMovieByImdbId = async (
     cacheMovie(imdbId, movie)
     return movie
   } catch (error) {
-    console.error(error)
     return null
   }
 }

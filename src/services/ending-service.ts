@@ -8,6 +8,12 @@ import {
 import { Ending } from '../types/ending'
 import { AI_NAMES } from '../types/ai'
 import { cacheEnding, getEndingFromCache } from '../utils/cache'
+import { NotFoundError } from '../errors/not-found-error'
+
+interface EndingsFromAI {
+  deepseek: string | null
+  openai: string | null
+}
 
 export const getEndingFromOpenAI = async (
   prompt: string,
@@ -29,12 +35,11 @@ export const getEndingFromOpenAI = async (
     })
     return response.choices[0].message.content
   } catch (error) {
-    console.error(error)
     return null
   }
 }
 
-const getEndingFromDeepseekAI = async (
+export const getEndingFromDeepseekAI = async (
   prompt: string,
 ): Promise<string | null> => {
   try {
@@ -54,17 +59,13 @@ const getEndingFromDeepseekAI = async (
     })
     return response.choices[0].message.content
   } catch (error) {
-    console.error(error)
     return null
   }
 }
 
-interface EndingsFromAI {
-  deepseek: string | null
-  openai: string | null
-}
-
-const getEndingsFromAI = async (imdbId: string): Promise<EndingsFromAI> => {
+export const getEndingsFromAI = async (
+  imdbId: string,
+): Promise<EndingsFromAI> => {
   try {
     const movie = await getMovieByImdbId(imdbId)
     if (!movie) {
@@ -86,7 +87,6 @@ const getEndingsFromAI = async (imdbId: string): Promise<EndingsFromAI> => {
 
     return { deepseek, openai }
   } catch (error) {
-    console.error(error)
     return { deepseek: null, openai: null }
   }
 }
@@ -95,7 +95,7 @@ export const getEndings = async (imdbId: string): Promise<Ending[]> => {
   try {
     const movie = await getMovieByImdbId(imdbId)
     if (!movie) {
-      return []
+      throw new NotFoundError({ message: 'Movie not found' })
     }
 
     const commonProps = {
@@ -122,7 +122,6 @@ export const getEndings = async (imdbId: string): Promise<Ending[]> => {
     }
     return endings
   } catch (error) {
-    console.error(error)
-    return []
+    throw error
   }
 }
