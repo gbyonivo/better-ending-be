@@ -64,3 +64,24 @@ jest.mock('./src/database/db-models/ending', () => {
     },
   }
 })
+
+jest.mock('bullmq', () => {
+  return {
+    Queue: jest.fn().mockImplementation(() => {
+      return {
+        add: jest.fn(),
+      }
+    }),
+    Worker: jest.fn().mockImplementation(() => {
+      return {
+        add: jest.fn(),
+        on: jest.fn(),
+      }
+    }),
+  }
+})
+
+jest.mock('ioredis', () => {
+  const actualIORedis = jest.requireActual('ioredis-mock')
+  return actualIORedis
+})

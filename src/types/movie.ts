@@ -23,3 +23,21 @@ export interface Movie {
   imdbRating: string
   imdbID: string
 }
+
+export interface SavedMovie {
+  id: string
+  title: string
+  year: string
+  poster: string
+  imdbID: string
+}
+
+type MovieType = Movie | SavedMovie
+
+export function isSavedMovie(movie: MovieType): movie is SavedMovie {
+  return 'id' in movie
+}
+
+export function isMovie(movie: MovieType): movie is Movie {
+  return 'Title' in movie
+}
