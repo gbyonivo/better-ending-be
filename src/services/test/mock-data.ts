@@ -17,5 +17,5 @@ export const mockedMovie = {
   Metascore: '',
   imdbRating: '',
   imdbVotes: '',
-  imdbID: '',
+  imdbId: '',
 }

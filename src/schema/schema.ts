@@ -2,7 +2,7 @@ export const typeDefs = `
   type Ending {
     movieId: String
     movieImage: String
-    content: String
+    plot: String
     aiName: String
     ending: String
     id: String
@@ -16,31 +16,31 @@ export const typeDefs = `
   }
 
   type Movie {
-    Title: String,
-    Year: String,
-    Rated: String,
-    Released: String,
-    Runtime: String,
-    Genre: String,
-    Director: String,
-    Writer: String,
-    Actors: String,
-    Plot: String,
-    Language: String,
-    Country: String,
-    Awards: String,
-    Poster: String,
-    Ratings: [Rating],
-    Metascore: String,
+    title: String,
+    year: String,
+    rated: String,
+    released: String,
+    runtime: String,
+    genre: String,
+    director: String,
+    writer: String,
+    actors: String,
+    plot: String,
+    language: String,
+    country: String,
+    awards: String,
+    poster: String,
+    ratings: [Rating],
+    metascore: String,
     imdbRating: String,
     imdbVotes: String,
-    imdbID: String,
-    Type: String,
-    DVD: String,
-    BoxOffice: String,
-    Production: String,
-    Website: String,
-    Response: String
+    imdbId: String,
+    type: String,
+    dvd: String,
+    boxOffice: String,
+    production: String,
+    website: String,
+    response: String
   }
     
   type Query {

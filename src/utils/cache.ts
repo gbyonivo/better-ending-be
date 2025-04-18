@@ -1,5 +1,5 @@
 import { redis } from '../database/db'
-import { Movie } from '../types/movie'
+import { OmdbMovie, SavedMovie } from '../types/movie'
 
 export const ENDING_CACHE_KEY = 'ending'
 export const MOVIE_CACHE_KEY = 'movie'
@@ -26,11 +26,13 @@ export const deleteEndingFromCache = async (imdbId: string) => {
   await redis.del(`${ENDING_CACHE_KEY}-${imdbId}`)
 }
 
-export const cacheMovie = async (imdbId: string, movie: Movie) => {
+export const cacheMovie = async (imdbId: string, movie: SavedMovie) => {
   await redis.set(`${MOVIE_CACHE_KEY}-${imdbId}`, JSON.stringify(movie))
 }
 
-export const getMovieFromCache = async (imdbId: string) => {
+export const getMovieFromCache = async (
+  imdbId: string,
+): Promise<SavedMovie | null> => {
   const movie = await redis.get(`${MOVIE_CACHE_KEY}-${imdbId}`)
   if (!movie) {
     return null

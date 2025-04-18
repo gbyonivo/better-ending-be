@@ -61,7 +61,7 @@ describe('getEndingsFromAI', () => {
   test('getEndingFromDeepseekAI: should return the endings from cache', async () => {
     // @ts-ignore
     movieService.getMovieByImdbId = jest.fn(() =>
-      Promise.resolve({ imdbID: 'test' }),
+      Promise.resolve({ imdbId: 'test' }),
     )
     ai.DEEPSEEK_AI.chat.completions.create = jest.fn(
       () =>
@@ -89,7 +89,7 @@ describe('getEndingsFromAI', () => {
   test('getEndingsFromAI: should return the endings from cache', async () => {
     // @ts-ignore
     movieService.getMovieByImdbId = jest.fn(() =>
-      Promise.reject({ imdbID: 'test' }),
+      Promise.reject({ imdbId: 'test' }),
     )
     const result = await endingService.getEndingsFromAI('test')
     expect(result).toMatchObject({ deepseek: null, openai: null })

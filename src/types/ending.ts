@@ -3,7 +3,7 @@ export interface Ending {
   ending: string
   movieId: string
   movieImage: string
-  content: string
+  plot: string
   aiName: string
   createdAt?: Date
   updatedAt?: Date

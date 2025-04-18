@@ -73,21 +73,32 @@ export const getEndingsFromAI = async (
     }
     const cachedEnding = await getEndingFromCache(imdbId)
     if (cachedEnding) {
+      console.log('cachedEnding', cachedEnding)
       return cachedEnding as EndingsFromAI
     }
 
-    const prompt = `The plot of the movie ${movie.Title} is ${movie.Plot}. Please give me a different short ending for the movie.`
+    if (!movie.plot || !movie.title) {
+      throw new NotFoundError({
+        message: `Movie not found - ${imdbId} - not title or not plot`,
+      })
+    }
+
+    const openaiPrompt = `The plot of the movie ${movie.title} is ${movie.plot}. Please give me a different happy ending for the movie.`
+    const deepseekPrompt = `The plot of the movie ${movie.title} is ${movie.plot}. Please give me a different mysterious ending for the movie.`
 
     const [openai, deepseek] = await Promise.all([
-      getEndingFromOpenAI(prompt),
-      getEndingFromDeepseekAI(prompt),
+      getEndingFromOpenAI(openaiPrompt),
+      getEndingFromDeepseekAI(deepseekPrompt),
     ])
 
-    cacheEnding({ imdbId, ending: { deepseek, openai } })
+    console.log('openai', openai)
+    console.log('deepseek', deepseek)
 
+    cacheEnding({ imdbId, ending: { deepseek, openai } })
+    console.log('cachedEnding cached', cachedEnding)
     return { deepseek, openai }
   } catch (error) {
-    return { deepseek: null, openai: null }
+    throw error
   }
 }
 
@@ -99,9 +110,9 @@ export const getEndings = async (imdbId: string): Promise<Ending[]> => {
     }
 
     const commonProps = {
-      movieId: movie.imdbID,
-      movieImage: movie.Poster,
-      content: movie.Plot,
+      movieId: movie.imdbId,
+      movieImage: movie.poster,
+      plot: movie.plot,
     }
 
     const { openai, deepseek } = await getEndingsFromAI(imdbId)

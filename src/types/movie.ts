@@ -3,7 +3,7 @@ export interface Rating {
   Value: string
 }
 
-export interface Movie {
+export interface OmdbMovie {
   Title: string
   Year: string
   Rated: string
@@ -22,22 +22,45 @@ export interface Movie {
   Metascore: string
   imdbRating: string
   imdbID: string
+  imdbId: string
 }
 
-export interface SavedMovie {
-  id: string
-  title: string
-  year: string
-  poster: string
-  imdbID: string
+type RenameKeys<T> = {
+  [P in keyof T as `${Uncapitalize<string & P>}`]: T[P]
 }
 
-type MovieType = Movie | SavedMovie
+export type SavedMovie = RenameKeys<OmdbMovie>
+
+type MovieType = OmdbMovie | SavedMovie
 
 export function isSavedMovie(movie: MovieType): movie is SavedMovie {
-  return 'id' in movie
+  return 'title' in movie
 }
 
-export function isMovie(movie: MovieType): movie is Movie {
+export function isOmdbMovie(movie: MovieType): movie is OmdbMovie {
   return 'Title' in movie
+}
+
+export function convertMovieToSavedMovie(movie: OmdbMovie): SavedMovie {
+  return {
+    title: movie.Title,
+    year: movie.Year,
+    poster: movie.Poster,
+    imdbID: movie.imdbID,
+    imdbId: movie.imdbID,
+    rated: movie.Rated,
+    released: movie.Released,
+    runtime: movie.Runtime,
+    genre: movie.Genre,
+    director: movie.Director,
+    writer: movie.Writer,
+    actors: movie.Actors,
+    plot: movie.Plot,
+    language: movie.Language,
+    country: movie.Country,
+    awards: movie.Awards,
+    ratings: movie.Ratings,
+    metascore: movie.Metascore,
+    imdbRating: movie.imdbRating,
+  }
 }
