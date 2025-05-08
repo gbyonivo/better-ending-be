@@ -9,6 +9,14 @@ export const UserModel = sequelize.define(
       type: DataTypes.UUID,
       primaryKey: true,
     },
+    googleId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    refreshToken: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,

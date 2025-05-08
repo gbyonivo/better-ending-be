@@ -1,25 +1,53 @@
 # Better Ending Backend
 
-A GraphQL API server built with Apollo Server, Express, and TypeScript, designed to provide backend services for the Better Ending application.
+A professional backend service for the Better Ending application.
 
-## 🚀 Technologies
+## Features
 
-- **Node.js & TypeScript**: Core runtime and language
-- **Apollo Server**: GraphQL server implementation
-- **Express**: Web server framework
-- **PostgreSQL**: Primary database (via Sequelize ORM)
-- **Redis**: Caching layer
-- **OpenAI Integration**: AI capabilities
-- **JWT**: Authentication handling
+- GraphQL API with Apollo Server
+- Authentication with JWT
+- Redis caching
+- Queue processing with BullMQ
+- PostgreSQL database with Sequelize ORM
+- TypeScript support
+- Comprehensive testing setup
 
-## 📋 Prerequisites
+## Prerequisites
 
-- Node.js (Latest LTS version recommended)
+- Node.js (v18 or higher)
 - PostgreSQL
 - Redis
 - Yarn package manager
 
-## 🛠️ Setup
+## Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Server Configuration
+PORT=4000
+NODE_ENV=development
+
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=better_ending
+DB_USER=your_username
+DB_PASSWORD=your_password
+
+# Redis Configuration
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# JWT Configuration
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=24h
+
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key
+```
+
+## Installation
 
 1. Clone the repository:
 
@@ -34,21 +62,10 @@ A GraphQL API server built with Apollo Server, Express, and TypeScript, designed
    yarn install
    ```
 
-3. Configure environment variables:
-   Create a `.env` file in the root directory with the following variables:
+3. Set up the database:
 
-   ```
-   # Database Configuration
-   DATABASE_URL=your_database_url
-
-   # Redis Configuration
-   REDIS_URL=your_redis_url
-
-   # OpenAI Configuration
-   OPENAI_API_KEY=your_openai_api_key
-
-   # Server Configuration
-   PORT=5001
+   ```bash
+   yarn db:migrate
    ```
 
 4. Start the development server:
@@ -56,38 +73,47 @@ A GraphQL API server built with Apollo Server, Express, and TypeScript, designed
    yarn start
    ```
 
-## 🏗️ Project Structure
+## Development
 
+- Run tests: `yarn test`
+- Lint code: `yarn lint`
+- Fix linting issues: `yarn lint:fix`
+
+## API Documentation
+
+The GraphQL API is available at `http://localhost:4000/graphql` when running in development mode.
+
+### Main Queries
+
+- `getUser`: Fetch user details
+- `getStories`: Fetch user stories
+- `getStory`: Fetch a specific story
+
+### Main Mutations
+
+- `createUser`: Create a new user
+- `createStory`: Create a new story
+- `updateStory`: Update an existing story
+- `deleteStory`: Delete a story
+
+## Testing
+
+The project uses Jest for testing. Tests are located in the `__tests__` directories alongside the source files.
+
+Run tests with:
+
+```bash
+yarn test
 ```
-src/
-├── database/     # Database configuration and models
-├── resolvers/    # GraphQL resolvers
-├── schema/       # GraphQL schema definitions
-├── services/     # Business logic and external service integrations
-├── types/        # TypeScript type definitions
-├── utils/        # Utility functions
-└── index.ts      # Application entry point
-```
 
-## 🔑 Features
+## Contributing
 
-- GraphQL API with Apollo Server
-- PostgreSQL database integration with Sequelize ORM
-- Redis caching layer
-- OpenAI integration for AI features
-- JWT-based authentication
-- TypeScript for type safety
-- Express middleware support
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 🚀 API Endpoints
-
-- GraphQL Endpoint: `http://localhost:5001/`
-- Health Check: `http://localhost:5001/test`
-
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👤 Author
-
-Orkuma Ivo

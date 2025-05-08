@@ -34,13 +34,19 @@ export const typeDefs = `
     metascore: String,
     imdbRating: String,
     imdbVotes: String,
-    imdbId: String,
+    imdbId: ID!,
     type: String,
     dvd: String,
     boxOffice: String,
     production: String,
     website: String,
     response: String
+  }
+
+  type User {
+    id: ID!,
+    name: String!,
+    email: String!,
   }
     
   type Query {
@@ -51,5 +57,6 @@ export const typeDefs = `
 
   type Mutation {
     createEnding(movieId: String): Ending
+    loginGoogle(token: String): User
   }
 `

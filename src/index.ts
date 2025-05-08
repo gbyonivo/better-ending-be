@@ -59,16 +59,19 @@ server.start().then(() => {
     '/',
     cors<cors.CorsRequest>(),
     express.json(),
+    // @ts-ignore
     expressMiddleware(server, {
-      context: async ({ req }) => {
+      // @ts-ignore
+      context: async ({ req, res }: { req: Request; res: Response }) => {
         return {
-          user: {},
+          req,
+          res,
         }
       },
     }),
   )
 })
 
-httpServer.listen({ port: 4000 }, () => {
-  console.log(`🚀 Server ready at http://localhost:4000/`)
+httpServer.listen({ port: 4040 }, () => {
+  console.log(`🚀 Server ready at http://localhost:4040/`)
 })
