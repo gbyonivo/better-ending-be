@@ -14,3 +14,6 @@ export const DB_SCHEMA = process.env.DB_SCHEMA
 export const OMDB_API_KEY = process.env.OMDB_API_KEY
 export const DB_SSL = process.env.DB_SSL
 export const REDIS_URL = process.env.REDIS_URL
+export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
+
