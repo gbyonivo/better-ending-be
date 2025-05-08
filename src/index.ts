@@ -28,7 +28,7 @@ const server = new ApolloServer({
   },
 })
 
-app.use(json())
+// app.use(json())
 app.get('/test', (req: any, res: any) => {
   res.send('Here we go')
 })
