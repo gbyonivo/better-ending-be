@@ -16,4 +16,4 @@ export const DB_SSL = process.env.DB_SSL
 export const REDIS_URL = process.env.REDIS_URL
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
-
+export const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY

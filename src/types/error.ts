@@ -14,6 +14,7 @@ export enum ErrorName {
   UNAUTHORIZED = 'Unauthorized',
   FORBIDDEN = 'Forbidden',
   CONFLICT = 'Conflict',
+  WEATHER_ERROR = 'WeatherError',
 }
 
 export interface BaseErrorType {
