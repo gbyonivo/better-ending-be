@@ -29,6 +29,7 @@ const server = new ApolloServer({
 })
 
 // app.use(json())
+app.use(cors())
 app.get('/test', (req: any, res: any) => {
   res.send('Here we go')
 })
@@ -36,8 +37,8 @@ app.get('/clear-cache', async (req: any, res: any) => {
   await redis.flushAll()
   res.send('Cache cleared')
 })
-app.get('/weather/:city', async (req: any, res: any) => {
-  const weatherReport = await getWeather(req.params.city)
+app.get('/weather', async (req: any, res: any) => {
+  const weatherReport = await getWeather(req.query.city)
   res.json(weatherReport)
 })
 app.get('/test-error', () => {
