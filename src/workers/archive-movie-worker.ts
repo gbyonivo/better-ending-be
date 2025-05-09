@@ -7,6 +7,7 @@ const connection = new IORedis({ maxRetriesPerRequest: null })
 
 export const archiveMovieQueue = new Queue(Job.ArchiveMovie, { connection })
 
+// just for testing - please ignore
 export function createWorker(jobName: Job) {
   const archiveMovieWorker = new Worker(
     jobName,
