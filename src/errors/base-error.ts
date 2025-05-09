@@ -12,5 +12,6 @@ export class BaseError extends GraphQLError {
     super(message)
     this.name = name
     this.extensions.code = code
+    this.code = code
   }
 }

@@ -1,3 +1,5 @@
+import { ValidationError } from 'express-validator'
+
 export enum ErrorCode {
   INTERNAL_SERVER_ERROR = 500,
   NOT_FOUND = 404,
@@ -21,4 +23,5 @@ export interface BaseErrorType {
   message: string
   code?: ErrorCode
   name?: ErrorName
+  errors?: ValidationError[]
 }
