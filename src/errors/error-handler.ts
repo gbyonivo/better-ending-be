@@ -13,5 +13,6 @@ export async function errorHandler(
   res.json({
     status: 'error',
     message: err.message || 'Internal Server Error',
+    errors: err.errors || [],
   })
 }
